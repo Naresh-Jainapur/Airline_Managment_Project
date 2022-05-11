@@ -26,10 +26,10 @@ if __name__ == '__main__':
 
     Routes_df = spark.read.parquet(r"C:\Users\admin\PycharmProjects\Airport_Project\Input\routes.snappy.parquet")
     Routes_df.printSchema()
-    #Routes_df.show()
+    # Routes_df.show()
 
     Planes_df = spark.read.csv(r"C:\Users\admin\PycharmProjects\Airport_Project\Input\plane.csv",inferSchema= True,header=True , sep='')
-    #Planes_df.printSchema()
+    Planes_df.printSchema()
     # Planes_df.show()
 
 
@@ -46,8 +46,8 @@ if __name__ == '__main__':
 
 #Q3) 3. get the airlines details like name, id,. which is has taken takeoff more than 3 times from same airport
     df5 = Routes_df.join(Airline_df, on=Airline_df.Airline_ID == Routes_df.airline_id).groupBy(Airline_df.Name,Airline_df.Airline_ID,Routes_df.src_airport).count()
-    df6 = df5.select("*" ).filter(col("Count") > 3)
-    # df6.show(10,truncate=False)
+    df6 = df5.select("*").filter(col("Count") > 3)
+    # df6.show()
 
 #Q4) 3. get airport details which has minimum number of takeoffs and landing.
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
 
 
-#Q) 5. Get the airline details, which is having direct flights. details like airline id, name, source airport name, and destination airport name
+#Q6) 5. Get the airline details, which is having direct flights. details like airline id, name, source airport name, and destination airport name
 
     Air_Route = Airline_df.join(Routes_df,on=Routes_df.airline_id==Airline_df.Airline_ID,how='leftouter').select(Airline_df.Airline_ID,Airline_df.Name,Routes_df.src_airport,Routes_df.src_airport_id,Routes_df.dest_airport_id,Routes_df.dest_airport,Routes_df.stops).filter(col("stops")==0).distinct()
     # Air_Route.show()
@@ -106,5 +106,5 @@ if __name__ == '__main__':
 
     dest = pros.join(Airport_df,on=pros.dest_airport_id==Airport_df.Airport_ID,how="inner").select(pros.Airline_ID,pros.Name,pros.src_airport,pros.dest_airport,pros.stops).distinct()
 
-    dest.show()
+    # dest.show()
 
