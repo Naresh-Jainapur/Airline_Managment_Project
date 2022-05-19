@@ -29,9 +29,15 @@ if __name__ == '__main__':
     # Routes_df.show()
 
     Planes_df = spark.read.csv(r"C:\Users\admin\PycharmProjects\Airport_Project\Input\plane.csv",inferSchema= True,header=True , sep='')
-    Planes_df.printSchema()
+    # Planes_df.printSchema()
     # Planes_df.show()
 
+    # Tempview for sql queries
+
+    Airline_df.createOrReplaceTempView("Airline_tab")
+    Airport_df.createOrReplaceTempView("Airport_tab")
+    Routes_df.createOrReplaceTempView("Routes_tab")
+    Planes_df.createOrReplaceTempView("Planes_tab")
 
 #Q1) 1. In any of your input file if you are getting \N or null values in your column and that column is of string type then put default value as "(unknown)" and if column is of type integer then put -1
 
@@ -43,11 +49,15 @@ if __name__ == '__main__':
 
     # Airport_df.join(Airline_df ,on=Airport_df.Country == Airline_df.Country , how='inner').select(Airport_df.Country).distinct().show()
 
+    # spark.sql("select distinct(art.country) Country_with_Airline_and_Airport from Airport_tab apt inner join Airline_tab art on art.country = apt.country ").show()
+
 
 #Q3) 3. get the airlines details like name, id,. which is has taken takeoff more than 3 times from same airport
-    df5 = Routes_df.join(Airline_df, on=Airline_df.Airline_ID == Routes_df.airline_id).groupBy(Airline_df.Name,Airline_df.Airline_ID,Routes_df.src_airport).count()
+    df5 = Routes_df.join(Airline_df, on=Airline_df.Airline_ID == Routes_df.airline_id,how='inner').groupBy(Airline_df.Name,Airline_df.Airline_ID,Routes_df.src_airport).count()
     df6 = df5.select("*").filter(col("Count") > 3)
     # df6.show()
+
+    # spark.sql("select  art.Airline_Id , art.Name , rt.Src_airport ,count(*) take_off from Routes_tab rt inner join Airline_tab art on art.Airline_ID = rt.airline_id group by art.Airline_Id,art.Name,rt.Src_airport having take_off > 3 order by take_off desc").show()
 
 #Q4) 3. get airport details which has minimum number of takeoffs and landing.
 
