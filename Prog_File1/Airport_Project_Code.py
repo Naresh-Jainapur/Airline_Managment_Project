@@ -29,7 +29,7 @@ if __name__ == '__main__':
     # Routes_df.show()
 
     Planes_df = spark.read.csv(r"C:\Users\admin\PycharmProjects\Airport_Project\Input\plane.csv",inferSchema= True,header=True , sep='')
-    # Planes_df.printSchema()
+    Planes_df.printSchema()
     # Planes_df.show()
 
     # Tempview for sql queries
@@ -81,6 +81,8 @@ if __name__ == '__main__':
     joi2 = Min_Landing.join(Min_Take_Offs,on=Min_Landing.Rank==Min_Take_Offs.Rank,how="inner")
     # joi2.show(truncate=False)
 
+    # spark.sql(" select at.Airport_ID , at.Name , rt.src_airport , rt.dest_airport , count(rt.src_airport) as take_off , count(rt.dest_airport) as landing from Airport_tab at inner join Routes_tab rt on at.Airport_ID = rt.src_airport_id group by at.Airport_ID , at.Name , rt.src_airport , rt.dest_airport order by take_off asc , landing asc ").show()
+
 
 #Q5) 4. get airport details which is having maximum number of takeoff and landing.
 
@@ -88,7 +90,8 @@ if __name__ == '__main__':
 
     wind3 = Window.orderBy(col("count").desc())
     take_offs=Take_off1.withColumn("Rank",rank().over(wind3)).distinct()
-    Max_take_off = take_offs.filter(col("Rank")==1).distinct()
+    Max_take_off = take_offs.filter(col("Rank"
+                                        )==1).distinct()
     # Max_take_off.show(10,truncate=False)
 
     Landing1 = Routes_df.join(Airport_df,on=Airport_df.Airport_ID==Routes_df.dest_airport_id).select(Routes_df.dest_airport,Airport_df.Name).groupBy(Routes_df.dest_airport,Airport_df.Name).count()
@@ -104,6 +107,7 @@ if __name__ == '__main__':
     joi = Max_landing.join(Max_take_off,on= Max_landing.Rank == Max_take_off.Rank,how="inner")
     # joi.show(truncate=False)
 
+    # spark.sql("select at.Airport_ID,at.Name , rt.src_airport , rt.dest_airport , count(src_airport) as take_off ,count(dest_airport) as landing from Airport_tab at inner join Routes_tab rt on at.Airport_ID = rt.src_airport_id group by  at.Airport_ID,at.Name , rt.src_airport , rt.dest_airport order by take_off desc , landing desc").show()
 
 
 #Q6) 5. Get the airline details, which is having direct flights. details like airline id, name, source airport name, and destination airport name
@@ -118,3 +122,8 @@ if __name__ == '__main__':
 
     # dest.show()
 
+
+    # spark.sql("select distinct(at.Airline_ID) , at.Name , rt.src_airport , rt.dest_airport ,stops from Airline_tab at inner join Routes_tab rt on at.Airline_ID = rt.airline_id where stops = 0 order by at.airline_id asc").show()
+
+
+    # spark.sql(" select air.Airline_ID , air.Name , apt.Name , rt.src_airport , rt.dest_airport , rt.stops from Airline_tab air inner join Routes_tab rt on rt.airline_id = air.Airline_ID left join Airport_tab apt on apt.Airport_ID = rt.src_airport_id left join Airport_tab on apt.Airport_ID = rt.dest_airport_id where stops = 0 order by air.airline_id").show()
