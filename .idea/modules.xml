@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Airport_Project.iml" filepath="$PROJECT_DIR$/.idea/Airport_Project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../GCP_cloud_Engineer_Practice/.idea/GCP_cloud_Engineer_Practice.iml" filepath="$PROJECT_DIR$/../GCP_cloud_Engineer_Practice/.idea/GCP_cloud_Engineer_Practice.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Learnings/.idea/Learnings.iml" filepath="$PROJECT_DIR$/../Learnings/.idea/Learnings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SCD_Project_FinancialSurvey_Data/.idea/SCD_Project_FinancialSurvey_Data.iml" filepath="$PROJECT_DIR$/../SCD_Project_FinancialSurvey_Data/.idea/SCD_Project_FinancialSurvey_Data.iml" />
     </modules>
   </component>
 </project>

@@ -47,7 +47,7 @@ if __name__ == '__main__':
 
 #Q2) 2. find the country name which is having both airlines and airport
 
-    # Airport_df.join(Airline_df ,on=Airport_df.Country == Airline_df.Country , how='inner').select(Airport_df.Country).distinct().show()
+    Airport_df.join(Airline_df ,on=Airport_df.Country == Airline_df.Country , how='inner').select(Airport_df.Country).distinct().show()
 
     # spark.sql("select distinct(art.country) Country_with_Airline_and_Airport from Airport_tab apt inner join Airline_tab art on art.country = apt.country ").show()
 
