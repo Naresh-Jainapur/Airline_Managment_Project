@@ -6,8 +6,5 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (Learning_pyspark)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Learnings" />
-    <orderEntry type="module" module-name="GCP_cloud_Engineer_Practice" />
-    <orderEntry type="module" module-name="SCD_Project_FinancialSurvey_Data" />
   </component>
 </module>
